@@ -1,0 +1,23 @@
+<%= form_with model: [@article, @article.comments.build] do |form| %>
+  <div class="mb-3">
+    <%= form.label :commenter, class: 'form-label' %>
+    <div class="form-group">
+      <%= form.text_field :commenter, class: 'form-control', value: current_user.email, readonly: 'readonly' %>
+    </div>
+  </div>
+  <div class="mb-3">
+    <%= form.label :body, class: 'form-label' %>
+    <div class="form-group">
+      <%= form.text_area :body, rows: 3, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="mb-3">
+    <%= form.label :status, class: 'form-label' %>
+    <div class="form-group">
+      <%= form.select :status, Visible::VALID_STATUSES, selected: 'public' %>
+    </div>
+  </div>
+  <div class="mb-3">
+    <%= form.submit %>
+  </div>
+<% end %>

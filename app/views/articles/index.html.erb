@@ -1,0 +1,21 @@
+<h1 class="h1 mb-3">Articles</h1>
+
+<div class="text mb-3">
+  Our blog has <%= Article.public_count %> articles!
+</div>
+
+<div class="list-group mb-3">
+  <% @articles.each do |article| %>
+    <% unless article.archived? %>
+      <%= link_to article, class: 'list-group-item list-group-item-action list-group-item-light' do %>
+        <span class="small"><%= I18n.l(article.created_at.to_time, :format => '%e %b %Y %H:%M') %>
+          by <%= article.user %></span><br/>
+        <strong><%= article.title %></strong>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
+
+<% if user_signed_in? %>
+  <%= link_to "New Article", new_article_path, class: 'link' %>
+<% end %>

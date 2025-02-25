@@ -1,0 +1,29 @@
+<% unless comment.archived? %>
+  <div class="">
+    <strong>Commenter:</strong>
+    <%= comment.commenter %>
+  </div>
+
+  <p>
+    <strong>Comment:</strong>
+    <%= comment.body %>
+  </p>
+
+  <% if user_signed_in? %>
+    <% if current_user.liked_comments.include?(comment) %>
+      <%= link_to 'Unlike', like_comment_path(current_user.like_comments.find_by(comment: comment)), method: :delete, data: { turbo_method: :delete } %>
+    <% else %>
+      <%= link_to 'Like', article_comment_like_comments_path(@article, comment), method: :post, data: { turbo_method: :post } %>
+    <% end %>
+    (<%= comment.like_comments.count %>)
+
+    <% if @article.user_id == current_user.id %>
+      <p class="small">
+        <%= link_to "Destroy Comment", [comment.article, comment], data: {
+          turbo_method: :delete,
+          turbo_confirm: "Are you sure?"
+        } %>
+      </p>
+    <% end %>
+  <% end %>
+<% end %>
