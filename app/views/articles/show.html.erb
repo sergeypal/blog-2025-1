@@ -1,21 +1,29 @@
 <article class="blog-post">
+  <!-- выводим заголовок -->
   <h1 class="display-5 link-body-emphasis mb-1"><%= @article.title %></h1>
 
   <p class="blog-post-meta">
+    <!-- выводим дату, время и автора статьи-->
     <%= I18n.l(@article.created_at.to_time, :format => '%e %b %Y %H:%M') %> by <%= @article.user %>
   </p>
 
+  <!-- выводим саму статью -->
   <p><%= @article.body %></p>
 
   <% if user_signed_in? %>
+    <!-- лайки доступны только для авторизованных -->
     <% if current_user.liked_articles.include?(@article) %>
+      <!-- если текущий пользователь лайкал, выводим ссылку на «убрать лайк» -->
       <%= link_to 'Unlike', article_like_article_path(@article, current_user.like_articles.find_by(article: @article)), method: :delete, data: { turbo_method: :delete } %>
     <% else %>
+      <!-- если текущий пользователь не лайкал, выводим ссылку на «поставить лайк» -->
       <%= link_to 'Like', article_like_articles_path(@article), method: :post, data: { turbo_method: :post } %>
     <% end %>
+    <!-- выводим кол-во лайков -->
     (<%= @article.like_articles.count %>)
 
     <% if @article.user_id == current_user.id %>
+      <!-- если текущий пользователь — автор, ему доступны редактирование и удаление статьи -->
       <p class="small">
         <%= link_to "Edit", edit_article_path(@article) %> |
         <%= link_to "Destroy", article_path(@article), data: {
@@ -28,18 +36,22 @@
 
   <div class="border p-3 border-radius-3">
     <h2 class="h2 mb-3">Comments</h2>
+    <!-- выводим список комментариев -->
     <%= render @article.comments %>
     <% if @article.comments.count == 0 %>
       <p>No comments left…</p>
     <% end %>
 
     <% if user_signed_in? %>
+      <!-- добавить комментарий может только авторизованный -->
       <h2 class="h2 mb-2">Add a comment:</h2>
+      <!-- выводим форму добавления комментария -->
       <%= render 'comments/form' %>
     <% end %>
   </div>
 
   <div class="text fw-semibold text-success-emphasis">
+    <!-- вернуться на главную -->
     <%= link_to 'Back to Articles list', root_path %>
   </div>
 </article>

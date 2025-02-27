@@ -1,4 +1,8 @@
 class CommentsController < ApplicationController
+  # требуем авторизацию пользователя кроме списка и просмотра статей
+  before_action :authenticate_user!
+
+  # создание нового комментария
   def create
     @article = Article.find(params[:article_id])
     @comment = @article.comments.create(comment_params)
@@ -6,6 +10,7 @@ class CommentsController < ApplicationController
     redirect_to article_path(@article)
   end
 
+  # удаление комментария (пока без проверки привязки к автору)
   def destroy
     @article = Article.find(params[:article_id])
     @comment = @article.comments.find(params[:id])
@@ -15,6 +20,7 @@ class CommentsController < ApplicationController
 
   private
 
+  # разрешённые параметры для сохранения/обновления
   def comment_params
     params.require(:comment).permit(:commenter, :body, :status)
   end

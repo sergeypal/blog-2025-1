@@ -11,12 +11,17 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
+  # Задаём route для корня сайта
   root "articles#index"
 
-  resources :articles do
-    resources :comments do
-      resources :like_comments, only: [:create, :destroy], shallow: true
+  # маршруты /articles/*
+  resources :articles do # CRUD (create, show, update, destroy) для статей
+    # маршруты /articles/:article_id/comments/*
+    resources :comments, only: [:create, :destroy] do # ТОЛЬКО create и destroy для комментариев к статьям
+      # маршруты /articles/:article_id/comments/:comment_id/like_comments/*
+      resources :like_comments, only: [:create, :destroy], shallow: true # ТОЛЬКО create и destroy для лайков к комментариям
     end
-    resources :like_articles, only: [:create, :destroy]
+    # маршруты /articles/:article_id/like_articles/*
+    resources :like_articles, only: [:create, :destroy] # ТОЛЬКО create и destroy для лайков к статьями
   end
 end

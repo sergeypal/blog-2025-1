@@ -1,15 +1,20 @@
 <h1 class="h1 mb-3">Articles</h1>
 
 <div class="text mb-3">
+  <!-- выводим кол-во статей на сайте -->
   Our blog has <%= Article.public_count %> articles!
 </div>
 
 <div class="list-group mb-3">
+  <!-- выводим  список ВСЕХ (то есть без пагинации) статей на сайте -->
   <% @articles.each do |article| %>
     <% unless article.archived? %>
+      <!-- если статья не в архиве, выводим ссылку на детальный просмотр статьи -->
       <%= link_to article, class: 'list-group-item list-group-item-action list-group-item-light' do %>
+        <!-- дата, время, автор -->
         <span class="small"><%= I18n.l(article.created_at.to_time, :format => '%e %b %Y %H:%M') %>
           by <%= article.user %></span><br/>
+        <!-- заголовок статьи -->
         <strong><%= article.title %></strong>
       <% end %>
     <% end %>
@@ -17,5 +22,6 @@
 </div>
 
 <% if user_signed_in? %>
+  <!-- ссылка на страницу добавления новой статьи выводим только для авторизованных -->
   <%= link_to "New Article", new_article_path, class: 'link' %>
 <% end %>

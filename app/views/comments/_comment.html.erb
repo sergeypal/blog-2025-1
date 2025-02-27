@@ -1,23 +1,30 @@
 <% unless comment.archived? %>
   <div class="">
     <strong>Commenter:</strong>
+    <!-- автор комментария -->
     <%= comment.commenter %>
   </div>
 
   <p>
     <strong>Comment:</strong>
+    <!-- текст комментария -->
     <%= comment.body %>
   </p>
 
   <% if user_signed_in? %>
+    <!-- что-то делать с комментариями могут только авторизованные -->
     <% if current_user.liked_comments.include?(comment) %>
+      <!-- если текущий пользователь лайкал, выводим ссылку на «убрать лайк» -->
       <%= link_to 'Unlike', like_comment_path(current_user.like_comments.find_by(comment: comment)), method: :delete, data: { turbo_method: :delete } %>
     <% else %>
+      <!-- если текущий пользователь не лайкал, выводим ссылку на «поставить лайк» -->
       <%= link_to 'Like', article_comment_like_comments_path(@article, comment), method: :post, data: { turbo_method: :post } %>
     <% end %>
+    <!-- выводим кол-во лайков -->
     (<%= comment.like_comments.count %>)
 
     <% if @article.user_id == current_user.id %>
+      <!-- если текущий пользователь — автор, ему доступно удаление -->
       <p class="small">
         <%= link_to "Destroy Comment", [comment.article, comment], data: {
           turbo_method: :delete,

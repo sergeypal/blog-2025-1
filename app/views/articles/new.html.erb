@@ -1,9 +1,11 @@
 <article class="blog-post">
   <h1 class="text h1">New Article</h1>
 
+  <!-- выводим форму добавления статьи (она же и редактирования) -->
   <%= render "form", article: @article %>
 
   <div class="text fw-semibold text-success-emphasis">
+    <!-- ссылка на главную -->
     <%= link_to 'Back to Articles list', root_path %>
   </div>
 </article>

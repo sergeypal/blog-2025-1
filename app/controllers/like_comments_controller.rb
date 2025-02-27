@@ -1,4 +1,8 @@
 class LikeCommentsController < ApplicationController
+  # требуем авторизацию пользователя
+  before_action :authenticate_user!
+
+  # ставим лайк комментарию
   def create
     @article = Article.find(params[:article_id])
     @comment = Comment.find(params[:comment_id])
@@ -6,6 +10,7 @@ class LikeCommentsController < ApplicationController
     redirect_to @article, notice: 'Comment liked!'
   end
 
+  # убираем лайк у комментария
   def destroy
     @like_comment = current_user.like_comments.find(params[:id])
     @comment = @like_comment.comment
