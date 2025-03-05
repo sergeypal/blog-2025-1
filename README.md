@@ -1,3 +1,5 @@
+!!! ПРОЕКТ СОБРАН ДЛЯ ГЕОРГИЯ с АВИТО https://www.avito.ru/user/c82a8e53be2eb840ee56d78ac135770e/profile, КОТОРЫЙ НЕ ЗАПЛАТИЛ !!!
+
 # README
 * git clone https://github.com/sergeypal/blog-2025-1
 * cd blog-2025-1
